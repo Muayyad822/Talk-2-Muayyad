@@ -5,7 +5,7 @@ import Messages from "./Messages";
 import { TiMessages } from "react-icons/ti";
 import { useAuthContext } from "../../context/AuthContext";
 
-const MessageContainer = () => {
+const MessageContainer = ({ setIsMessageOpen }) => {
 	const { selectedConversation, setSelectedConversation } = useConversation();
 
 	useEffect(() => {
@@ -14,22 +14,27 @@ const MessageContainer = () => {
 	}, [setSelectedConversation]);
 
 	return (
-		<div className='md:min-w-[450px] flex flex-col'>
-			{!selectedConversation ? (
-				<NoChatSelected />
-			) : (
-				<>
-					{/* Header */}
-					<div className='bg-slate-500 px-4 py-2 mb-2 text-center'>
-						{/* <span className='label-text'>To:</span>{" "} */}
-						<span className='text-gray-900 font-bold '>{selectedConversation.fullName}</span>
-					</div>
-					<Messages />
-					<MessageInput />
-				</>
-			)}
-		</div>
-	);
+		<div className="msgContainer flex flex-col justify-center items-center flex-grow max-h-screen overflow-y-auto">
+      {!selectedConversation ? (
+        <NoChatSelected />
+      ) : (
+        <>
+          {/* Back Button (Only on mobile) */}
+          <button className="sm:hidden p-2 font-bold text-gray-700 w-full ml-8 text-left" onClick={() => setIsMessageOpen(false)}>
+            ←
+          </button>
+
+          {/* Header */}
+          <div className="bg-slate-500 px-4 py-2 mb-2 text-center">
+            <span className="text-gray-900 font-bold">{selectedConversation.fullName}</span>
+          </div>
+
+          <Messages />
+          <MessageInput />
+        </>
+      )}
+    </div>
+  );
 };
 export default MessageContainer;
 

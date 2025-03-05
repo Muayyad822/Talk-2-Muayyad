@@ -4,7 +4,7 @@
 
 body {
 	background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("/bgi.jpg");
-	
+	padding: 15px;
 }
 
 /* dark mode looking scrollbar */
@@ -24,6 +24,14 @@ body {
 ::-webkit-scrollbar-thumb:hover {
 	background: #242424;
 }
+
+/* Hide sidebar on small screens */
+/* @media (max-width: 640px) {
+  .msgContainer {
+    display: none;
+  }
+} */
+
 
 /* SHAKE ANIMATION ON HORIZONTAL DIRECTION */
 .shake {
@@ -55,3 +63,5 @@ body {
 		transform: translate3d(4px, 0, 0);
 	}
 }
+
+
