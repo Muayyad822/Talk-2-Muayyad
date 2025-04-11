@@ -6,14 +6,14 @@ const Home = () => {
   const [isMessageOpen, setIsMessageOpen] = useState(false);
 
   return (
-    <div className="flex min-h-screen w-screen bg-cover bg-center bg-no-repeat rounded-lg overflow-hidden bg-gray-400 bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-0">
-      {/* Sidebar (Hidden when a message is open on mobile) */}
-      <div className={`${isMessageOpen ? "hidden sm:block" : "block"}`}>
+    <div className='flex w-full'>
+      {/* Sidebar */}
+      <div className={`${isMessageOpen ? 'hidden md:block' : 'w-full md:w-[350px]'} bg-gray-800 border-r border-gray-700`}>
         <Sidebar setIsMessageOpen={setIsMessageOpen} />
       </div>
 
-      {/* Message Container (Hidden on small screens until clicked) */}
-      <div className={`msgContainer w-full sm:min-w-[450px] ${isMessageOpen ? "block" : "hidden sm:block"}`}>
+      {/* Message Container */}
+      <div className={`${isMessageOpen ? 'w-full' : 'hidden md:block'} flex-1 bg-gray-900`}>
         <MessageContainer setIsMessageOpen={setIsMessageOpen} />
       </div>
     </div>

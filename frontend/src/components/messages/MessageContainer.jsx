@@ -14,27 +14,39 @@ const MessageContainer = ({ setIsMessageOpen }) => {
 	}, [setSelectedConversation]);
 
 	return (
-		<div className="msgContainer flex flex-col justify-center items-center flex-grow max-h-screen overflow-y-auto">
-      {!selectedConversation ? (
-        <NoChatSelected />
-      ) : (
-        <>
-          {/* Back Button (Only on mobile) */}
-          <button className="sm:hidden p-2 font-bold text-gray-700 w-full ml-8 text-left" onClick={() => setIsMessageOpen(false)}>
-            ←
-          </button>
+		<div className='flex flex-col h-full'>
+			{!selectedConversation ? (
+				<NoChatSelected />
+			) : (
+				<>
+					{/* Header */}
+					<div className='bg-gray-800 px-4 py-2 mb-2'>
+						<div className='flex items-center'>
+							<button 
+								className='md:hidden mr-4 text-gray-400 hover:text-white'
+								onClick={() => setIsMessageOpen(false)}
+							>
+								←
+							</button>
+							<span className='text-gray-300 font-semibold'>
+								{selectedConversation.fullName}
+							</span>
+						</div>
+					</div>
 
-          {/* Header */}
-          <div className="bg-slate-500 px-4 py-2 mb-2 text-center">
-            <span className="text-gray-900 font-bold">{selectedConversation.fullName}</span>
-          </div>
+					{/* Messages */}
+					<div className='flex-1 overflow-y-auto px-4'>
+						<Messages />
+					</div>
 
-          <Messages />
-          <MessageInput />
-        </>
-      )}
-    </div>
-  );
+					{/* Input */}
+					<div className='mt-auto border-t border-gray-700'>
+						<MessageInput />
+					</div>
+				</>
+			)}
+		</div>
+	);
 };
 export default MessageContainer;
 
