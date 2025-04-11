@@ -29,7 +29,24 @@ app.get("*", (req, res) => {
 	res.sendFile(path.join(__dirname, "frontend", "dist", "index.html"));
 });
 
-server.listen(PORT, () => {
-	connectToMongoDB();
-	console.log(`Server Running on port ${PORT}`);
+// Add error handling for uncaught exceptions
+process.on('uncaughtException', (error) => {
+    console.error('Uncaught Exception:', error);
+    process.exit(1);
+});
+
+// Add error handling for unhandled promise rejections
+process.on('unhandledRejection', (error) => {
+    console.error('Unhandled Rejection:', error);
+    process.exit(1);
+});
+
+server.listen(PORT, async () => {
+    try {
+        await connectToMongoDB();
+        console.log(`Server Running on port ${PORT}`);
+    } catch (error) {
+        console.error('Failed to start server:', error);
+        process.exit(1);
+    }
 });

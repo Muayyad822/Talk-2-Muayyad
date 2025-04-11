@@ -2,13 +2,26 @@ import mongoose from "mongoose";
 
 const connectToMongoDB = async () => {
 	try {
-		await mongoose.connect(process.env.MONGO_DB_URI);
+		const options = {
+			useNewUrlParser: true,
+			useUnifiedTopology: true,
+			serverSelectionTimeoutMS: 5000,
+			socketTimeoutMS: 45000,
+		};
+
+		await mongoose.connect(process.env.MONGO_DB_URI, options);
 		console.log("Connected to MongoDB");
-		// Verify connection by trying to get users count
-		const usersCount = await mongoose.connection.collection('users').countDocuments();
-		console.log(`Number of users in database: ${usersCount}`);
 	} catch (error) {
-		console.log("Error connecting to MongoDB", error.message);
+		console.error("MongoDB connection error:", error.message);
+		// Retry logic
+		if (error.message.includes('ESERVFAIL')) {
+			console.log("DNS resolution issue, retrying in 5 seconds...");
+			setTimeout(() => {
+				connectToMongoDB();
+			}, 5000);
+			return;
+		}
+		process.exit(1);
 	}
 };
 
