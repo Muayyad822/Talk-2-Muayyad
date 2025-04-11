@@ -8,6 +8,10 @@ export const useSocketContext = () => {
 	return useContext(SocketContext);
 };
 
+const BACKEND_URL = process.env.NODE_ENV === "production" 
+    ? "https://talk-2-muayyad.onrender.com"
+    : "http://localhost:5000";
+
 export const SocketContextProvider = ({ children }) => {
 	const [socket, setSocket] = useState(null);
 	const [onlineUsers, setOnlineUsers] = useState([]);
@@ -15,10 +19,11 @@ export const SocketContextProvider = ({ children }) => {
 
 	useEffect(() => {
 		if (authUser) {
-			const socket = io("https://talk-2-muayyad.onrender.com", {
+			const socket = io(BACKEND_URL, {
 				query: {
 					userId: authUser._id,
 				},
+				withCredentials: true // Important for cookies
 			});
 
 			setSocket(socket);
